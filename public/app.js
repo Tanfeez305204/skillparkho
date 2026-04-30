@@ -16,6 +16,13 @@ const langHiButton = document.getElementById("langHiButton");
 const langEnButton = document.getElementById("langEnButton");
 const languageHint = document.getElementById("languageHint");
 const downloadPdfButton = document.getElementById("downloadPdfButton");
+const ANSWER_HIGHLIGHT_PREFIXES = [
+  "Agar interview me short aur strong answer dena ho, to tum itna bol sakte ho.",
+  "Isko real life me aise samjho.",
+  "If you want to answer this briefly in an interview, you can say this.",
+  "A simple practical example is this.",
+  "Example."
+];
 
 function getText(value) {
   if (typeof value === "string") {
@@ -80,6 +87,63 @@ function createStat(label, value) {
 
   tile.append(valueNode, labelNode);
   return tile;
+}
+
+function splitAnswerHighlight(line) {
+  const trimmed = line.trim();
+
+  for (const prefix of ANSWER_HIGHLIGHT_PREFIXES) {
+    if (trimmed.startsWith(prefix)) {
+      return {
+        prefix,
+        rest: trimmed.slice(prefix.length).trimStart()
+      };
+    }
+  }
+
+  return null;
+}
+
+function renderAnswerContent(answerText) {
+  const fragment = document.createDocumentFragment();
+  const lines = String(answerText || "").split("\n");
+
+  lines.forEach((rawLine) => {
+    const line = rawLine.trimEnd();
+
+    if (!line.trim()) {
+      const gap = document.createElement("div");
+      gap.className = "answer-gap";
+      fragment.appendChild(gap);
+      return;
+    }
+
+    const paragraph = document.createElement("p");
+    paragraph.className = "answer-line";
+
+    const highlighted = splitAnswerHighlight(line);
+    if (highlighted) {
+      paragraph.classList.add("answer-callout");
+
+      const prefixNode = document.createElement("span");
+      prefixNode.className = "answer-prefix";
+      prefixNode.textContent = highlighted.prefix;
+      paragraph.appendChild(prefixNode);
+
+      if (highlighted.rest) {
+        paragraph.append(" ");
+        const restNode = document.createElement("span");
+        restNode.textContent = highlighted.rest;
+        paragraph.appendChild(restNode);
+      }
+    } else {
+      paragraph.textContent = line;
+    }
+
+    fragment.appendChild(paragraph);
+  });
+
+  return fragment;
 }
 
 function renderStats() {
@@ -171,10 +235,7 @@ function renderNotes() {
       const answerWrap = document.createElement("div");
       answerWrap.className = "answer";
 
-      const answerText = document.createElement("p");
-      answerText.textContent = getText(entry.a);
-
-      answerWrap.appendChild(answerText);
+      answerWrap.appendChild(renderAnswerContent(getText(entry.a)));
       details.append(summary, answerWrap);
       list.appendChild(details);
     });

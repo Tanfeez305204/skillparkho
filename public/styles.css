@@ -415,10 +415,27 @@ body {
   color: #2e4441;
 }
 
-.answer p {
+.answer-line {
   margin: 0;
   line-height: 1.7;
-  white-space: pre-line;
+  white-space: pre-wrap;
+}
+
+.answer-line + .answer-line {
+  margin-top: 6px;
+}
+
+.answer-gap {
+  height: 10px;
+}
+
+.answer-callout {
+  color: #111111;
+}
+
+.answer-prefix {
+  font-weight: 800;
+  color: #111111;
 }
 
 .empty-state {

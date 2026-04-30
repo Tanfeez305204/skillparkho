@@ -1,0 +1,9 @@
+{
+  "name": "it-interview-notes-webapp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local web app for browsing IT interview notes and downloading them as PDF.",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

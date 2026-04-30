@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IT Engineer Interview Notes</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script defer src="/app.js"></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="ambient ambient-left"></div>
+      <div class="ambient ambient-right"></div>
+
+      <header class="hero">
+        <p class="eyebrow">SkillParkho Notes Library</p>
+        <h1>IT Engineer Interview Q&amp;A</h1>
+        <p class="hero-copy">
+          Week-wise modules, interview questions, and detailed answers in one
+          clean browser view.
+        </p>
+
+        <div class="hero-actions">
+          <a class="primary-button" href="/download/notes.pdf">Download PDF</a>
+          <button class="ghost-button" id="expandAllButton" type="button">
+            Expand All
+          </button>
+          <button class="ghost-button" id="collapseAllButton" type="button">
+            Collapse All
+          </button>
+        </div>
+      </header>
+
+      <section class="toolbar">
+        <label class="search-panel">
+          <span>Search notes</span>
+          <input
+            id="searchInput"
+            type="search"
+            placeholder="Search by question, topic, or answer..."
+            autocomplete="off"
+          />
+        </label>
+
+        <div class="stats" id="statsPanel"></div>
+      </section>
+
+      <section class="module-filter">
+        <div class="section-label">Modules</div>
+        <div class="chip-row" id="moduleChips"></div>
+      </section>
+
+      <main id="notesRoot" class="notes-grid" aria-live="polite"></main>
+    </div>
+  </body>
+</html>

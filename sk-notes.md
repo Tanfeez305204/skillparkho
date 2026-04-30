@@ -165,6 +165,136 @@ Types:
 Fayde: Caching, security, anonymity, content filtering, load balancing
 Reverse proxy web servers ko protect karta hai direct exposure se.
 
+### 16. TCP aur UDP mein practical difference kya hai? Real-world examples do.
+
+TCP connection-oriented protocol hai jo delivery guarantee, sequencing aur retransmission provide karta hai.
+UDP connectionless hai, fast hai, lekin packet delivery guarantee nahi deta.
+TCP use cases: HTTP/HTTPS, RDP, FTP, SMTP.
+UDP use cases: DNS queries, VoIP, video streaming, online gaming.
+Interview answer ka practical point: jahan accuracy chahiye wahan TCP, jahan speed aur low latency chahiye wahan UDP.
+
+### 17. Default Gateway kya hota hai? Agar galat configured ho to kya issue aayega?
+
+Default Gateway wo router address hota hai jiske through device apne local subnet ke bahar traffic bhejta hai.
+Agar gateway galat ho to local network chal sakta hai lekin internet ya doosre network tak access fail hoga.
+Example: User same LAN ke printer ko ping kar lega, lekin google.com open nahi hoga.
+Check commands: ipconfig, route print, ping gateway IP.
+Fix: Sahi gateway manually set karo ya DHCP scope options verify karo.
+
+### 18. APIPA address kya hota hai? 169.254.x.x kab milta hai?
+
+APIPA ka full form Automatic Private IP Addressing hai.
+Jab client DHCP server se valid IP nahi le pata, tab Windows khud 169.254.x.x range ka IP assign kar deta hai.
+Iska matlab hota hai machine local link par hai but proper network connectivity nahi mili.
+Common reasons: DHCP server down, cable issue, VLAN mismatch, NIC issue.
+Troubleshooting: ipconfig /release, ipconfig /renew, switch port aur DHCP scope check karo.
+
+### 19. Private IP aur Public IP mein kya difference hai? Private ranges kaun si hoti hain?
+
+Private IP internal networks ke liye use hota hai aur internet par directly routable nahi hota.
+Public IP internet par unique hota hai aur ISP ya cloud provider assign karta hai.
+Private IPv4 ranges:
+- 10.0.0.0/8
+- 172.16.0.0/12
+- 192.168.0.0/16
+Private IPs ko internet access ke liye aam taur par NAT ki zarurat hoti hai.
+
+### 20. VLAN kya hota hai? Inter-VLAN communication kaise hoti hai?
+
+VLAN network ko logically alag broadcast domains mein divide karta hai bina alag physical switches ke.
+Isse security, management aur broadcast control improve hota hai.
+Ek VLAN ke devices normally doosre VLAN se direct baat nahi karte.
+Inter-VLAN communication ke liye Layer 3 switch ya router chahiye hota hai.
+Practical example: HR, Admin aur Guest devices ko alag VLANs mein rakhna.
+
+### 21. ARP kya hai aur troubleshooting mein kaise use karte ho?
+
+ARP yani Address Resolution Protocol IP address ko MAC address mein map karta hai.
+Jab ek host same subnet ke device se baat karta hai to pehle ARP request broadcast hoti hai.
+Agar ARP resolution fail ho to local connectivity issue aa sakta hai.
+Commands: arp -a se ARP table dekh sakte ho, ping karke entry populate kar sakte ho.
+Duplicate IP ya stale entry cases mein ARP table clear karna useful hota hai.
+
+### 22. Speed ya duplex mismatch kya hota hai? Symptoms kya hote hain?
+
+Duplex mismatch tab hota hai jab ek side full duplex aur doosri side half duplex par chal rahi ho.
+Isse collisions, slow throughput, packet drops aur intermittent connectivity issues aate hain.
+User complaint hoti hai ki network connected hai but transfers bahut slow hain.
+Switch port counters aur NIC advanced settings se mismatch identify kar sakte ho.
+Best practice: Dono side auto-negotiation ya dono side same fixed values use karo.
+
+### 23. Common networking ports kaun se hote hain jo interview mein pooche jaate hain?
+
+Kuch common ports jo yaad hone chahiye:
+- 20/21 FTP
+- 22 SSH
+- 23 Telnet
+- 25 SMTP
+- 53 DNS
+- 67/68 DHCP
+- 80 HTTP
+- 110 POP3
+- 143 IMAP
+- 443 HTTPS
+- 3389 RDP
+Interview mein port ke saath use case bhi batana strong answer hota hai.
+
+### 24. Agar user bole 'internet nahi chal raha', to aap step-by-step kaise troubleshoot karoge?
+
+Sabse pehle physical checks: cable, Wi-Fi status, NIC enabled hai ya nahi.
+Phir ipconfig dekhunga: valid IP, subnet, gateway, DNS mila ya nahi.
+Uske baad sequence mein ping test: 127.0.0.1, own IP, default gateway, 8.8.8.8, phir domain name.
+Agar IP ping ho raha hai lekin website nahi khul rahi to DNS side check karunga.
+Agar local bhi fail hai to NIC, switch port, DHCP ya driver issue consider karunga.
+
+### 25. Packet loss kya hota hai? Iske common reasons aur checks kya hain?
+
+Packet loss ka matlab transmitted packets destination tak nahi pahunch rahe.
+Symptoms: voice break, video lag, file transfer issue, ping timeout.
+Common reasons: bad cable, wireless interference, congestion, faulty NIC, duplex mismatch.
+Checks: ping -t, pathping, tracert, switch interface errors, Wi-Fi signal strength.
+Resolution root cause par depend karti hai, jaise cable replace karna ya bandwidth issue fix karna.
+
+### 26. Latency, Jitter aur Bandwidth mein kya difference hai?
+
+Latency packet ko source se destination tak pahunchne mein lagne wala time hai.
+Jitter latency ka variation hai, jo voice/video quality ko affect karta hai.
+Bandwidth maximum data carrying capacity hai, jaise 100 Mbps ya 1 Gbps.
+High bandwidth ka matlab low latency zaruri nahi hota.
+Interview example: VoIP mein bandwidth se zyada low latency aur low jitter important hote hain.
+
+### 27. MTU kya hota hai? Fragmentation kab hoti hai?
+
+MTU yani Maximum Transmission Unit ek packet ka maximum size batata hai jo interface bina fragmentation ke bhej sakta hai.
+Ethernet mein common MTU 1500 bytes hota hai.
+Agar packet path ke kisi link ke MTU se bada ho to fragmentation ya drop ho sakta hai.
+VPN ya tunnel environments mein MTU mismatch se websites half load ho sakti hain.
+Troubleshooting mein ping with DF flag aur packet size testing useful hoti hai.
+
+### 28. Static routing aur dynamic routing mein kya difference hai?
+
+Static routing mein admin manually routes configure karta hai.
+Dynamic routing protocols jaise OSPF, EIGRP ya BGP routes automatically learn aur update karte hain.
+Small network mein static routing simple hoti hai.
+Large ya changing network mein dynamic routing better scalability deti hai.
+Interview answer mein yeh bolna accha hai ki static secure aur simple hai, dynamic flexible aur scalable hai.
+
+### 29. HTTPS aur TLS kya hai? HTTP se kaise better hai?
+
+HTTPS basically HTTP over TLS hota hai.
+TLS encryption, integrity aur server authentication provide karta hai.
+HTTP plain text hota hai, isliye credentials sniff kiye ja sakte hain.
+HTTPS mein certificate use hota hai jo browser ko trust establish karne mein help karta hai.
+Practical benefit: login pages, payment portals aur admin panels ke liye secure communication.
+
+### 30. DNS issue troubleshoot karne ke liye aap kaun se commands aur checks use karoge?
+
+Commands: nslookup, ipconfig /all, ipconfig /flushdns, ping hostname, ping IP.
+Agar hostname resolve nahi ho raha lekin IP ping ho raha hai to DNS problem likely hai.
+Client side DNS server settings aur suffix check karna chahiye.
+Server side par zone, records, forwarders aur DNS service health verify karte hain.
+Browser-specific issue ho to local cache ya proxy settings bhi check karni chahiye.
+
 ## WEEK 3 - Module 2: Client OS Administration & Support
 
 ### 1. Operating System ka architecture kya hota hai?
@@ -327,6 +457,126 @@ Performance Troubleshooting:
    - Defragmentation (HDD ke liye)
    - Temporary files delete karo
 
+### 11. Safe Mode kya hota hai? Iske types aur use cases kya hain?
+
+Safe Mode Windows ko minimal drivers aur services ke saath start karta hai.
+Types: Safe Mode, Safe Mode with Networking, Safe Mode with Command Prompt.
+Use cases: bad driver uninstall karna, startup issue isolate karna, malware removal.
+Agar normal boot fail ho raha ho lekin Safe Mode chal raha ho to issue aksar driver ya startup software side hota hai.
+Interview mein ye batana useful hai ki Safe Mode diagnosis ke liye hota hai, permanent solution nahi.
+
+### 12. Workgroup aur Domain mein kya difference hai?
+
+Workgroup peer-to-peer model hai jahan har PC apna khud ka account database maintain karta hai.
+Domain centralized management model hai jo Active Directory ke through users, policies aur authentication control karta hai.
+Workgroup small environments ke liye theek hai.
+Domain enterprise setup ke liye better hai kyunki login, GPO, password policy aur resource access centrally manage hote hain.
+1-year support role mein domain join aur login issue ka basic understanding important hota hai.
+
+### 13. User profile corrupt ho jaye to uske symptoms aur fix kya honge?
+
+Symptoms: temporary profile login, desktop reset, missing icons, Outlook profile issues, app settings lost.
+Event Viewer aur C:\Users folder check kar sakte ho.
+Kabhi kabhi registry profile list entry corrupt hoti hai.
+Fix approach: affected user ka backup, naya profile create, old data migrate, phir login test.
+Enterprise environment mein user documents aur OST/PST handling ka dhyan rakhna padta hai.
+
+### 14. Windows Update fail ho raha ho to kaise troubleshoot karte ho?
+
+Basic checks: internet connectivity, disk space, date/time, antivirus interference.
+Services check karo: Windows Update service, BITS service.
+SoftwareDistribution folder reset aur Windows Update troubleshooter run kiya ja sakta hai.
+Specific error code mil jaye to uske hisab se KB article ya log analysis karte hain.
+Agar patch repeatedly fail ho raha hai to safe mode, DISM aur SFC bhi use hote hain.
+
+### 15. Windows service start nahi ho rahi ho to aap kya check karoge?
+
+Sabse pehle service status, startup type aur dependent services check karunga.
+Phir Event Viewer mein related error dekhunga.
+Logon account ya service account password issue bhi reason ho sakta hai.
+Port conflict ya missing file/registry dependency bhi service start fail kara sakti hai.
+Practical commands: services.msc, sc query, net start, Event Viewer.
+
+### 16. Event Viewer ko practical support mein kaise use karte ho?
+
+Event Viewer Windows logs ka central tool hai.
+Important logs: System, Application, Security, Setup.
+Issue reproduce karke us time ke Error ya Warning events filter karte hain.
+Event ID aur source dekhkar root cause narrow down karna aasaan hota hai.
+1-year experience answer mein example dena strong hota hai, jaise service crash, disk warning ya login failure.
+
+### 17. BitLocker recovery key kab maangi ja sakti hai?
+
+BitLocker recovery key tab prompt ho sakti hai jab TPM state badal jaye, motherboard/BIOS change ho, ya boot sequence unusual ho.
+PIN multiple times galat dene par bhi recovery maang sakta hai.
+Support engineer ko recovery key location pata honi chahiye: AD, Azure AD, Microsoft account ya organization portal.
+Unauthorized bypass possible nahi hota, isliye identity verify karke hi key share ki jati hai.
+Best practice: BitLocker enable karte waqt recovery method document karo.
+
+### 18. Browser issue ho aur website open na ho to client side par kya checks karoge?
+
+Pehle verify karunga issue sirf ek browser mein hai ya sab mein.
+Cache, cookies, proxy settings, extensions aur DNS cache clear karunga.
+Private/incognito mode mein test helpful hota hai.
+Agar IP open ho raha hai par domain nahi to DNS issue ho sakta hai.
+Corporate environments mein certificate, firewall, VPN aur web filter bhi check karne padte hain.
+
+### 19. Disk Management tool ka use kahan hota hai?
+
+Disk Management se partition create, delete, extend, shrink aur drive letter assign kar sakte ho.
+Naya disk initialize karke MBR ya GPT select karte hain.
+User cases: data partition banana, USB ya external disk ko usable banana, drive letter conflict solve karna.
+Kuch operations ke liye unallocated space contiguous hona zaruri hota hai.
+System disk changes se pehle backup lena best practice hai.
+
+### 20. Local admin account ko secure rakhne ke liye kya best practices hain?
+
+Daily work ke liye local admin use nahi karna chahiye.
+Strong unique passwords use karo aur password reuse avoid karo.
+Enterprise setup mein LAPS ya Windows LAPS jaisi solution helpful hoti hai.
+Admin rights sirf zarurat par do aur audit maintain karo.
+Agar malware local admin par run ho gaya to poore system ka risk badh jata hai.
+
+### 21. System Restore, Reset aur full image backup mein kya farq hai?
+
+System Restore configuration aur system files ko previous restore point par le jata hai.
+Reset this PC Windows ko reinstall jaisa state deta hai, optionally files keep kar sakta hai.
+Full image backup poore disk ya system state ka complete copy hota hai.
+Minor driver/software issue mein restore useful hai.
+Disaster recovery ya hardware failure scenario mein image backup zyada helpful hota hai.
+
+### 22. Mapped drive disconnect issue ko kaise troubleshoot karoge?
+
+Pehle check karo network path reachable hai ya nahi.
+User ke credentials expire hue hain ya share permissions badli hain, yeh verify karo.
+VPN dependent mapping ho to user VPN connected hona chahiye.
+Persistent mapping ke bawajood login timing issue aa sakta hai, especially slow network par.
+Commands: net use, ping server, access UNC path directly.
+
+### 23. BSOD aaye to basic troubleshooting approach kya hogi?
+
+Error code note karna sabse pehla step hai.
+Recent driver, Windows update, RAM issue, disk issue ya antivirus conflict common causes hote hain.
+Safe Mode mein boot karke recent changes rollback kar sakte ho.
+Minidump files aur Event Viewer analysis se direction milti hai.
+Memory diagnostic aur SFC/DISM jaisi checks bhi useful hoti hain.
+
+### 24. gpresult ya RSOP ka use kab karte ho?
+
+Jab domain joined client par expected Group Policy apply nahi ho rahi ho tab gpresult aur RSOP useful hote hain.
+`gpresult /r` se applied user aur computer policies dekh sakte ho.
+RSOP graphical way mein effective settings dikhata hai.
+Isse clear hota hai ki policy linked hai, filtered hai ya deny ho rahi hai.
+Client OS support role mein ye command domain troubleshooting ke liye kaafi common hai.
+
+### 25. Agar ek 1-year experience support engineer ke roop mein aapse kaha jaye ki laptop bahut slow hai, to aap kya karoge?
+
+Main pehle user se issue ka pattern puchhunga: kab slow hai, hamesha ya specific app mein.
+Phir Task Manager se CPU, RAM, disk aur startup load dekhunga.
+Storage free space, Windows updates, antivirus scan aur thermal throttling bhi check karunga.
+Temporary files cleanup, unnecessary startup apps disable aur browser load test karunga.
+Agar hardware bottleneck ho to SSD ya RAM upgrade recommend karna bhi sahi answer hai.
+
 ## WEEK 4 & 5 - Module 3: Server Administration
 
 ### 1. Windows Server kya hai? Roles aur Features mein kya fark hai?
@@ -467,6 +717,127 @@ Example:
 - 'Sales' ko Domain Local group 'FileAccess' mein add karo
 - 'FileAccess' ko folder permissions do
 
+### 9. FSMO roles kya hote hain? 5 roles ke naam batao.
+
+FSMO ka full form Flexible Single Master Operations hai.
+Forest level roles: Schema Master, Domain Naming Master.
+Domain level roles: RID Master, PDC Emulator, Infrastructure Master.
+Ye roles kuch special operations ke liye single-authority behavior provide karte hain.
+Interview mein kam se kam roles ke naam aur PDC Emulator ka importance batana chahiye.
+
+### 10. Kerberos aur NTLM mein kya difference hai?
+
+Kerberos modern authentication protocol hai jo tickets use karta hai aur domain environments mein preferred hai.
+NTLM older challenge-response based protocol hai.
+Kerberos faster aur zyada secure maana jata hai, especially mutual authentication ke liye.
+Agar time sync issue ho to Kerberos fail ho sakta hai.
+Practical answer: domain joined environments mein pehle Kerberos try hota hai, fallback cases mein NTLM aa sakta hai.
+
+### 11. Kisi computer ko domain join karne se pehle kya prerequisites check karte ho?
+
+Client ko DNS sahi domain controller ya AD DNS server par point karna chahiye.
+Network connectivity, time sync aur domain credentials required hote hain.
+System ka hostname organization standard ke hisab se hona chahiye.
+OU placement aur naming convention bhi kai companies mein important hota hai.
+Join ke baad reboot aur domain login test karna chahiye.
+
+### 12. AD replication kya hoti hai aur issue aaye to kaise troubleshoot karte ho?
+
+AD replication multiple domain controllers ke beech directory changes sync karti hai.
+Agar replication fail ho to password changes, new users ya GPOs consistent nahi dikhenge.
+Basic tools: repadmin /replsummary, dcdiag, Event Viewer.
+DNS issue, time sync, network ports ya lingering objects common reasons hote hain.
+Healthy multi-DC environment ke liye replication monitoring important hai.
+
+### 13. Group Policy apply nahi ho rahi ho to kya steps loge?
+
+Pehle check karo system sahi OU mein hai ya nahi aur GPO linked hai ya nahi.
+Security filtering, WMI filtering aur inheritance bhi verify karni chahiye.
+Client side par gpresult /r aur gpupdate /force useful hote hain.
+DNS aur domain connectivity issue hone par bhi policies fail hoti hain.
+Event Viewer ke GroupPolicy logs se exact clue mil sakta hai.
+
+### 14. Share permissions aur NTFS permissions mein kya difference hai?
+
+Share permissions network access ke liye apply hoti hain jab folder share ke through access hota hai.
+NTFS permissions local aur network dono access par apply hoti hain.
+Effective permission generally restrictive combination hoti hai.
+Best practice: share permissions broad rakho, fine-grained control NTFS se do.
+Interview example: share permission Full aur NTFS Read ho to effective access Read hi rahega.
+
+### 15. DHCP scope full ho jaye to aap kya karoge?
+
+Sabse pehle current leases aur scope utilization check karunga.
+Unused stale leases, lease duration aur rogue/static conflicts inspect karunga.
+Temporary solution ke liye scope range extend ya secondary scope add kiya ja sakta hai.
+Reservation misuse ya unauthorized devices bhi reason ho sakte hain.
+Long-term fix network size ke hisab se proper IP planning hai.
+
+### 16. Forwarder aur Conditional Forwarder mein kya difference hai DNS mein?
+
+Standard forwarder unknown queries ko external DNS ya upstream server par bhejta hai.
+Conditional forwarder specific domain ke liye particular DNS server use karta hai.
+Example: partner.company.com ke liye alag DNS forward karna.
+Isse cross-domain name resolution simplify hoti hai.
+Enterprise setups mein conditional forwarders multi-domain ya hybrid environments mein common hote hain.
+
+### 17. Time synchronization domain environment mein itna important kyu hota hai?
+
+Kerberos authentication time-sensitive hota hai, usually 5-minute skew se zyada par issue aa sakta hai.
+Galat time se login failure, replication issues aur certificate problems aa sakte hain.
+Domain hierarchy mein PDC Emulator time source ka central role rakhta hai.
+Commands: w32tm /query /status, w32tm /resync.
+Interview answer mein security aur authentication dono angle mention karna accha hota hai.
+
+### 18. Service Account kya hota hai aur isse normal user account se alag kaise treat karte hain?
+
+Service Account wo account hota hai jiske under Windows service, scheduled task ya application run karti hai.
+Isko least privilege ke principle par configure karna chahiye.
+Password expiry, SPN aur delegation jaise topics service accounts mein relevant hote hain.
+Normal user account ko service ke liye use karna security risk ho sakta hai.
+Modern environments mein gMSA bhi use hota hai jisse password management easy hota hai.
+
+### 19. IIS website open nahi ho rahi ho to kya troubleshoot karoge?
+
+Check karo site started hai ya stopped.
+Binding sahi hai ya nahi: IP, hostname, port, certificate.
+App pool state aur identity bhi verify karni hoti hai.
+Port conflict, firewall block, DNS resolution ya content path permission issue common causes hain.
+Useful checks: IIS Manager, netstat, browser error code, Event Viewer.
+
+### 20. RAID levels ka basic understanding batao.
+
+RAID multiple disks ko performance ya redundancy ke liye combine karta hai.
+RAID 0: striping, fast but no redundancy.
+RAID 1: mirroring, high redundancy.
+RAID 5: parity based, balance of space and protection.
+RAID 10: performance + redundancy, enterprise workloads mein common.
+Important point: RAID backup ka replacement nahi hota.
+
+### 21. Domain Controller promote ya demote karte waqt kya dhyan rakhte ho?
+
+Promotion se pehle static IP, proper DNS aur hostname set hona chahiye.
+Replication health aur existing domain state verify karna chahiye.
+Demotion se pehle FSMO roles transfer, GC dependency aur DNS roles check karo.
+Agar server last DC ho to extra caution chahiye.
+Post-change validation: dcdiag, repadmin aur authentication tests.
+
+### 22. Windows Server patch management ko basic level par kaise handle karte ho?
+
+Patch management mein update approval, maintenance window aur rollback planning important hai.
+Small environments mein manual Windows Update chal sakta hai.
+Bade setups mein WSUS, SCCM ya centralized tools use hote hain.
+Critical servers par patch se pehle snapshot/backup aur dependency review zaruri hai.
+Post-patch validation mein services, event logs aur application health check karte hain.
+
+### 23. Daily server health checklist mein aap kya kya dekhoge?
+
+CPU, RAM, disk free space, critical services aur backup status.
+Event Viewer mein repeated errors, hardware warnings aur failed jobs.
+Network connectivity, replication, time sync aur antivirus/update status.
+Application-specific checks jaise IIS site, database service ya file share accessibility.
+1-year experience role mein proactive monitoring ka mention karna strong impression deta hai.
+
 ## WEEK 6 - Module 4: Virtualization
 
 ### 1. Virtualization kya hai? Kyu use karte hain?
@@ -585,6 +956,126 @@ Virtual Machine Manager (virt-manager): GUI tool for KVM
 virsh: Command line tool
 virsh list --all (sab VMs dekhna)
 virsh start vmname (VM start karna)
+
+### 8. Thin provisioning aur thick provisioning mein kya difference hai?
+
+Thin provisioning mein disk logical size ke hisab se dikhti hai lekin storage actual use ke hisab se consume hota hai.
+Thick provisioning mein poora allocated storage pehle se reserve ho jata hai.
+Thin se storage efficiency milti hai lekin overcommit risk hota hai.
+Thick predictable performance aur space assurance deta hai.
+Production planning mein free datastore capacity monitor karna zaruri hai.
+
+### 9. Template aur Clone mein kya difference hai virtualization mein?
+
+Clone ek existing VM ki copy hoti hai jo turant use ki ja sakti hai.
+Template ek master image hoti hai jisse naye VMs standard configuration ke saath deploy kiye jaate hain.
+Template se consistency maintain hoti hai.
+Clone quick testing ya duplicate environment ke liye useful hota hai.
+Interview mein yeh batana accha hai ki template operational standardization ke liye use hota hai.
+
+### 10. Snapshot aur Backup same cheez hain kya?
+
+Nahi, snapshot aur backup same nahi hote.
+Snapshot point-in-time rollback ke liye hota hai aur same storage environment par dependent hota hai.
+Backup long-term protection aur disaster recovery ke liye hota hai.
+Snapshot ko days ya weeks tak rakhna performance aur storage issue create kar sakta hai.
+Production safety ke liye proper backup solution zaruri hota hai.
+
+### 11. vCPU aur vRAM overcommitment kya hota hai?
+
+Overcommitment ka matlab physical resources se zyada virtual resources assign karna.
+Ye virtualization ka ek fayda hai kyunki sab VMs ek saath peak use nahi karte.
+Lekin aggressive overcommitment se contention aur performance issue aate hain.
+CPU ready time, ballooning, swapping jaise indicators monitor karne chahiye.
+Balanced sizing aur monitoring best practice hai.
+
+### 12. Agar VM slow chal rahi ho to kaise identify karoge bottleneck CPU, RAM ya storage hai?
+
+Pehle host aur guest dono side metrics dekhunga.
+High CPU ready ya sustained usage CPU contention dikhata hai.
+Memory pressure, ballooning, swapping ya guest pagefile growth RAM issue dikhate hain.
+High latency, queue depth ya slow IOPS storage bottleneck indicate karte hain.
+Interview answer mein host-level aur guest-level dono analysis mention karna chahiye.
+
+### 13. VMware Tools ya Hyper-V Integration Services kyu important hote hain?
+
+Ye guest OS aur hypervisor ke beech better integration provide karte hain.
+Features: optimized drivers, time sync, graceful shutdown, clipboard support, heartbeat, better network/video performance.
+Agar tools outdated ho to VM performance ya management features impact ho sakte hain.
+Patch ke baad tools version compatibility bhi dekhni hoti hai.
+Support role mein tools install/upgrade ek common task hai.
+
+### 14. vMotion ya Live Migration kya hota hai?
+
+Live Migration running VM ko ek host se doosre host par minimal ya zero downtime ke saath move karta hai.
+Ye maintenance window aur load balancing ke liye useful hai.
+Prerequisites: compatible CPU, shared storage ya supported migration method, networking readiness.
+Migration ke dauran memory state transfer hoti hai.
+Practical benefit: host patching bina application outage ke ki ja sakti hai.
+
+### 15. Virtualization storage ke common types kaun se hote hain?
+
+Common storage types: local datastore, SAN, NAS, iSCSI, NFS, Fibre Channel.
+Shared storage advanced features jaise HA aur live migration ko support karta hai.
+Performance workload ke hisab se storage type choose kiya jata hai.
+Low latency workloads ko faster storage chahiye hota hai.
+Interview answer mein yeh kehna useful hai ki storage sirf capacity nahi, performance aur resiliency bhi hai.
+
+### 16. Nested virtualization kya hota hai?
+
+Nested virtualization mein ek VM ke andar bhi hypervisor run karte hain.
+Use cases: lab setup, testing, training, demo environments.
+Production ke liye hamesha ideal nahi hota kyunki performance overhead hota hai.
+CPU virtualization extensions expose karni padti hain.
+Cloud ya local lab interviews mein yeh concept kabhi kabhi poocha jata hai.
+
+### 17. VM Generation 1 aur Generation 2 mein kya difference hota hai Hyper-V mein?
+
+Generation 1 legacy BIOS based hoti hai aur purane OS support karti hai.
+Generation 2 UEFI based hoti hai aur Secure Boot, better boot architecture provide karti hai.
+Har OS generation 2 support nahi karta.
+New deployments mein supported OS ho to Gen 2 prefer karte hain.
+Interview mein BIOS vs UEFI angle mention karna achha rahega.
+
+### 18. Resource reservations, limits aur shares kya hote hain?
+
+Reservation minimum guaranteed resource amount hota hai.
+Limit maximum usable resource cap hoti hai.
+Shares contention ke time relative priority define karte hain.
+Critical VMs ko higher shares ya reservation diya ja sakta hai.
+Galat configuration se underutilization ya performance issue dono ho sakte hain.
+
+### 19. P2V migration kya hota hai?
+
+P2V ka full form Physical to Virtual migration hai.
+Is process mein physical server ko virtual machine mein convert kiya jata hai.
+Benefits: hardware consolidation, easier backup, flexibility.
+Migration se pehle application dependency, disk size aur downtime plan karna hota hai.
+Post-migration NIC, drivers aur licensing validate karna important hota hai.
+
+### 20. Agar configuration change ke baad VM boot nahi ho rahi ho to aap kya karoge?
+
+Recent change identify karunga: CPU, RAM, disk, boot order, secure boot, ISO attach, snapshot revert.
+Console se exact boot error dekhoon ga.
+Agar snapshot available ho to rollback option consider karunga.
+Guest OS repair tools aur safe mode bhi useful ho sakte hain.
+Hypervisor event logs aur datastore availability bhi check karni chahiye.
+
+### 21. HA ka concept virtualization mein kya hota hai?
+
+HA yani High Availability ka matlab host failure par VM ko doosre host par automatically restart karna.
+Iske liye cluster configuration aur shared resources required hote hain.
+HA zero data loss guarantee nahi karta; ye mainly restart automation hai.
+Business-critical workloads ke liye downtime reduce hota hai.
+Interview answer mein HA ko backup ya FT se alag batana zaruri hai.
+
+### 22. Containers aur VMs mein basic difference kya hai?
+
+VMs full guest OS ke saath isolated environment provide karte hain.
+Containers host OS kernel share karte hain aur lightweight hote hain.
+VMs strong isolation aur mixed OS support ke liye better hote hain.
+Containers fast deployment aur microservices ke liye useful hote hain.
+Practical answer: legacy full server workloads ke liye VM, lightweight app packaging ke liye container.
 
 ## WEEK 7 - Module 5: System Hardware
 
@@ -726,6 +1217,126 @@ Common Issues:
 4. USB device not detected:
    - Device Manager > Universal Serial Bus controllers
    - USB Root Hub uninstall/rescan
+
+### 8. CPU overheating ke symptoms kya hote hain aur aap kya checks karoge?
+
+Symptoms: sudden shutdown, lag, thermal throttling, fan noise, random restart.
+Temperature monitoring tools se CPU temp verify karte hain.
+Dust buildup, blocked airflow, loose cooler ya dry thermal paste common reasons hain.
+Laptop mein vents aur fan cleaning important hoti hai.
+Prolonged overheating hardware life ko reduce kar sakti hai.
+
+### 9. PSU ya SMPS kharab ho to kaun se signs milte hain?
+
+System power on na hona, random restart, burning smell, fan not spinning, unstable voltages common signs hain.
+Kabhi kabhi LED jalti hai lekin motherboard post nahi karta.
+Known good PSU se test karna practical method hai.
+High load par shutdown hona bhi weak PSU indicate karta hai.
+Enterprise support mein proper wattage aur connector compatibility bhi dekhni hoti hai.
+
+### 10. SATA, NVMe aur M.2 mein kya difference hai?
+
+SATA ek interface standard hai jo HDD aur SSD dono ke saath use hota hai.
+NVMe protocol hai jo PCIe par run karta hai aur much faster hota hai.
+M.2 physical form factor hai; har M.2 drive NVMe nahi hoti, kuch SATA based bhi hoti hain.
+Interview trap yehi hota hai: M.2 ko interface samajh lena galat hai.
+Fast boot aur app performance ke liye NVMe best option hota hai.
+
+### 11. SMART errors kya indicate karte hain?
+
+SMART disk health monitoring technology hai.
+Agar reallocated sectors, pending sectors ya health warnings dikh rahi hain to drive failure ka risk hota hai.
+Symptoms: slow file access, clicking noise, copy errors, boot issue.
+Aisi drive ka turant backup lena chahiye.
+CrystalDiskInfo ya vendor tools se health status check kar sakte ho.
+
+### 12. CMOS battery weak ho jaye to kya symptoms dikhte hain?
+
+Date/time reset hona common symptom hai.
+BIOS settings baar baar default ho sakti hain.
+Boot par checksum error ya CMOS error message aa sakta hai.
+Old desktops mein CR2032 battery replace karke issue fix hota hai.
+Replacement ke baad BIOS settings review karni chahiye.
+
+### 13. BIOS update kab karni chahiye aur kya precautions hote hain?
+
+BIOS update tab karni chahiye jab compatibility, security ya stability fix specifically needed ho.
+Sirf latest hone ke liye random BIOS flash karna best practice nahi hai.
+Correct motherboard model aur stable power supply verify karna zaruri hai.
+Laptop par charger connected hona chahiye, desktop par UPS helpful hota hai.
+Failed BIOS flash system ko unbootable bana sakti hai.
+
+### 14. ESD precautions kya hote hain hardware handle karte waqt?
+
+ESD yani electrostatic discharge sensitive components ko damage kar sakta hai.
+Anti-static wrist strap, grounded surface aur proper handling use karni chahiye.
+RAM, motherboard aur CPU ko edges se hold karna better hota hai.
+Carpeted area ya dry environment mein extra caution chahiye.
+Hardware support interviews mein ESD basics ka answer expected hota hai.
+
+### 15. Agar monitor par no display aa raha ho to aap kya troubleshoot karoge?
+
+Power cable, display cable aur monitor input source check karunga.
+System actually boot ho raha hai ya nahi, iske liye beep, caps lock ya remote ping check kar sakte hain.
+Integrated vs dedicated GPU output bhi verify karna chahiye.
+Known good cable aur known good monitor se isolate karna best hai.
+Laptop case mein external display test karke panel issue identify kiya ja sakta hai.
+
+### 16. Laptop battery troubleshooting ka basic process kya hai?
+
+Check karo battery detect ho rahi hai ya nahi aur charge percentage stable hai ya rapidly drop ho rahi hai.
+Adapter, charging port aur battery report useful hote hain.
+Powercfg /batteryreport se battery health details mil sakti hain.
+Swollen battery safety issue hoti hai aur immediately replace karni chahiye.
+Kabhi issue battery ka nahi, charger ya DC jack ka hota hai.
+
+### 17. USB 2.0, USB 3.x aur Type-C mein kya difference hai?
+
+USB 2.0 slower hota hai, USB 3.x much faster data transfer provide karta hai.
+Type-C connector shape hai, speed standard nahi.
+Type-C port USB data, charging, DisplayPort ya Thunderbolt bhi support kar sakta hai depending on hardware.
+Interview trick: connector aur protocol ko mix mat karo.
+Practical support mein cable capability bhi verify karni padti hai.
+
+### 18. Motherboard form factors aur expansion slots ka basic idea kya hona chahiye?
+
+Common form factors: ATX, Micro-ATX, Mini-ITX.
+Ye cabinet size, expansion options aur layout affect karte hain.
+Expansion slots mein PCIe x16, x4, x1 common hote hain.
+GPU usually PCIe x16 use karta hai.
+Upgrade plan karte waqt board size, slot availability aur power connectors verify karna padta hai.
+
+### 19. Thermal paste ka role kya hai?
+
+Thermal paste CPU aur cooler ke beech microscopic gaps fill karta hai.
+Isse heat transfer improve hota hai.
+Old ya improperly applied paste se temperatures increase ho sakte hain.
+Paste zyada ya bahut kam dono galat hain.
+CPU servicing ya cooler replacement mein fresh paste apply karna common practice hai.
+
+### 20. NIC issue aaye to kaun se hardware-level checks karoge?
+
+Link light dekhunga, cable test karunga, switch port verify karunga.
+Device Manager se adapter status aur driver bhi check karunga.
+Speed negotiation, disabled adapter ya bad patch cable common causes hain.
+USB to LAN adapters ya docking stations mein bhi hardware faults mil sakte hain.
+Ping loopback, own IP aur gateway tests combined approach dete hain.
+
+### 21. POST beep codes ya LED diagnostic codes ka use kaise karte hain?
+
+POST codes startup ke time hardware failure category indicate karte hain.
+Manufacturer ke hisab se beep pattern ka meaning alag ho sakta hai.
+Common categories: RAM error, VGA issue, CPU issue, keyboard/controller issue.
+Modern boards LED ya debug code display bhi deti hain.
+Interview answer mein yeh mention karo ki manual ya vendor reference ke saath code decode karte ho.
+
+### 22. Hardware upgrade recommend karte waqt kaun si compatibility checks zaruri hoti hain?
+
+RAM type, speed, slot count aur supported capacity.
+Storage interface: SATA ya NVMe support.
+CPU socket, chipset support aur BIOS compatibility.
+PSU wattage aur physical space bhi important hote hain.
+Smart recommendation wahi hoti hai jo workload aur budget dono ke hisab se ho.
 
 ## WEEK 8 - Module 6: ITIL (IT Infrastructure Library)
 
@@ -900,3 +1511,123 @@ Priority Levels:
 - P2 High: Major functionality affected
 - P3 Medium: Some functionality affected
 - P4 Low: Minor issue, workaround available
+
+### 10. Incident aur Service Request mein kya difference hai?
+
+Incident unplanned interruption ya degradation hota hai.
+Service Request ek standard demand hoti hai, jaise software install, access request ya password reset.
+Incident ka goal service restore karna hota hai.
+Service Request ka goal approved service deliver karna hota hai.
+Service desk interviews mein ye difference bahut common hota hai.
+
+### 11. Major Incident kya hota hai aur isko kaise handle kiya jata hai?
+
+Major Incident high-impact issue hota hai jo bahut saare users ya critical service ko affect karta hai.
+Isme rapid coordination, bridge call, communication aur priority handling hoti hai.
+Normal process se fast-track decisions liye ja sakte hain.
+Technical resolution ke saath stakeholder updates equally important hote hain.
+Closure ke baad review aur RCA expected hota hai.
+
+### 12. Functional escalation aur Hierarchical escalation mein kya difference hai?
+
+Functional escalation ka matlab issue ko zyada skilled technical team ya higher support level ko bhejna.
+Hierarchical escalation management chain ke through hoti hai jab urgency, approval ya business impact high ho.
+Example: L1 se L2 jana functional escalation hai.
+Manager ko involve karna kyunki VIP outage hai, wo hierarchical escalation ho sakti hai.
+Interview mein dono ko confuse na karna important hai.
+
+### 13. Impact aur Urgency se priority kaise decide karte hain?
+
+Impact batata hai kitne users ya business functions affect hue hain.
+Urgency batati hai issue ko kitni jaldi address karna zaruri hai.
+Dono ko combine karke priority set ki jati hai.
+Example: CEO ka laptop issue urgent ho sakta hai, lekin poora mail server down high impact aur high urgency dono hoga.
+Achi answer mein matrix-based thinking mention karna chahiye.
+
+### 14. RCA kya hota hai aur support engineer isme kya contribute karta hai?
+
+RCA yani Root Cause Analysis repeated ya major incidents ka actual cause dhoondhne ka process hai.
+Support engineer symptom timeline, logs, workaround aur affected scope document karta hai.
+5 Whys, fishbone aur log correlation jaise methods use hote hain.
+Goal sirf service restore nahi, future recurrence rokna bhi hota hai.
+1-year experience candidate se strong documentation mindset expected hota hai.
+
+### 15. KEDB kya hota hai aur iska fayda kya hai?
+
+KEDB yani Known Error Database mein known problems aur unke workarounds store hote hain.
+Isse repeated incidents jaldi resolve hote hain.
+L1 teams bhi KEDB use karke faster support de sakti hain.
+Knowledge reuse se MTTR reduce hota hai.
+Interview answer mein ise Problem Management se link karna useful hai.
+
+### 16. CMDB aur Configuration Item (CI) kya hote hain?
+
+CMDB ek repository hoti hai jahan IT assets aur unke relationships documented hote hain.
+Configuration Item koi bhi managed component ho sakta hai: server, application, database, network device, contract.
+Incident, change aur impact analysis mein CMDB ka bahut role hota hai.
+Agar dependency clear ho to outage impact jaldi samajh aata hai.
+Good ITIL maturity mein accurate CMDB maintain karna important hota hai.
+
+### 17. CAB meeting mein aam taur par kya discuss hota hai?
+
+CAB yani Change Advisory Board risk, impact, rollback plan aur schedule review karta hai.
+High-risk ya business-impacting changes yahan discuss kiye jaate hain.
+Stakeholders dekhte hain ki testing hui hai ya nahi.
+Conflict with other changes ya blackout periods bhi consider hote hain.
+Approval ke baad implementation controlled tarike se hoti hai.
+
+### 18. Change Freeze period kya hota hai?
+
+Change Freeze ya blackout period wo time hota hai jab non-essential changes temporarily rok diye jaate hain.
+Ye peak business events, financial closing, holidays ya major releases ke aas paas hota hai.
+Goal unnecessary risk reduce karna hota hai.
+Sirf emergency changes allow kiye ja sakte hain.
+Interview mein business awareness dikhane ka yeh accha point hai.
+
+### 19. Knowledge Base article kaisa hona chahiye?
+
+Accha KB article clear title, symptoms, cause, resolution steps aur screenshots ya commands rakhta hai.
+Language simple honi chahiye taaki L1 ya end user bhi use kar sake.
+Version/date aur owner mention karna useful hota hai.
+Outdated KB confusion create kar sakta hai.
+Support teams ki efficiency improve karne mein quality documentation key hoti hai.
+
+### 20. First Call Resolution (FCR) kya hota hai aur ye kyu important hai?
+
+FCR ka matlab pehli interaction mein issue resolve ho jana.
+Ye customer satisfaction improve karta hai aur ticket volume reduce karta hai.
+Lekin sirf metric chase karne ke liye incomplete fix dena sahi nahi hota.
+Good troubleshooting, KB access aur proper permissions FCR improve karte hain.
+Interview answer mein quality aur speed dono balance ka point rakhna chahiye.
+
+### 21. MTTR aur MTBF ka basic meaning kya hai?
+
+MTTR yani Mean Time to Resolve ya Recover, issue resolve hone mein average time.
+MTBF yani Mean Time Between Failures, failures ke beech ka average operating time.
+MTTR service desk aur operations efficiency dikhata hai.
+MTBF reliability ka indicator hai.
+ITIL reporting mein in metrics ka use service improvement decisions ke liye hota hai.
+
+### 22. Outage ke dauran user communication kaise handle karni chahiye?
+
+Clear, timely aur honest updates deni chahiye.
+Agar root cause abhi clear nahi hai to bhi current impact aur next update time batana chahiye.
+Technical jargon kam rakhna better hai, especially business users ke liye.
+Silence frustration badhata hai.
+Good communication kabhi kabhi technical fix jitni hi important hoti hai.
+
+### 23. Post Incident Review (PIR) ka purpose kya hota hai?
+
+PIR incident ke baad conduct hota hai taaki samjha ja sake kya hua, kyun hua aur kya improve karna hai.
+Isme timeline, actions taken, communication quality aur prevention steps review hote hain.
+Focus blame nahi, learning aur improvement par hona chahiye.
+Major incidents ke baad PIR especially valuable hota hai.
+Yeh Continual Service Improvement ko support karta hai.
+
+### 24. Service Desk ke common KPIs kaun se hote hain?
+
+Common KPIs: SLA compliance, FCR, MTTR, backlog size, reopen rate, CSAT.
+Har metric ko context ke saath dekhna chahiye.
+Sirf ticket close count se quality measure nahi hoti.
+Balanced KPIs team performance ka realistic view dete hain.
+Interview mein KPI ko business outcome se connect karna strong answer hota hai.

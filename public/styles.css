@@ -114,6 +114,68 @@ body {
   line-height: 1.7;
 }
 
+.language-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 22px;
+  padding: 16px 18px;
+  border: 1px solid rgba(20, 49, 46, 0.1);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.42);
+}
+
+.language-copy p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.language-label {
+  display: inline-block;
+  color: var(--warm);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.language-toggle {
+  display: inline-flex;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(20, 49, 46, 0.08);
+  border: 1px solid rgba(20, 49, 46, 0.08);
+}
+
+.lang-button {
+  min-width: 108px;
+  min-height: 42px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.lang-button.active {
+  background: var(--ink);
+  color: #fffdf7;
+  box-shadow: 0 10px 22px rgba(20, 49, 46, 0.16);
+}
+
+.lang-button:hover {
+  transform: translateY(-1px);
+}
+
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -398,6 +460,18 @@ body {
 
   .hero-actions {
     flex-direction: column;
+  }
+
+  .language-bar {
+    align-items: stretch;
+  }
+
+  .language-toggle {
+    width: 100%;
+  }
+
+  .lang-button {
+    flex: 1;
   }
 
   .primary-button,

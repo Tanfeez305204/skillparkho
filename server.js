@@ -4,6 +4,7 @@ const path = require("path");
 
 const { buildNotesPdf } = require("./lib/buildPdf");
 const { loadQaData } = require("./lib/loadQaData");
+const { buildBilingualSections, sectionsForLanguage } = require("./lib/translateNotes");
 
 const PORT = Number(process.env.PORT) || 3000;
 const PUBLIC_DIR = path.join(__dirname, "public");
@@ -24,10 +25,11 @@ function notesPayload() {
 
   return {
     title: "IT Engineer Interview Q&A",
-    sections,
+    sections: buildBilingualSections(sections),
     meta: {
       moduleCount: sections.length,
-      questionCount
+      questionCount,
+      languages: ["hi", "en"]
     }
   };
 }
@@ -87,10 +89,11 @@ const server = http.createServer((request, response) => {
   }
 
   if (requestUrl.pathname === "/download/notes.pdf") {
-    const pdf = buildNotesPdf(loadQaData());
+    const language = requestUrl.searchParams.get("lang") === "en" ? "en" : "hi";
+    const pdf = buildNotesPdf(sectionsForLanguage(loadQaData(), language));
     response.writeHead(200, {
       "Content-Type": "application/pdf",
-      "Content-Disposition": "attachment; filename=\"IT-Engineer-Interview-Notes.pdf\"",
+      "Content-Disposition": `attachment; filename="IT-Engineer-Interview-Notes-${language === "en" ? "English" : "Hindi"}.pdf"`,
       "Cache-Control": "no-store",
       "Content-Length": pdf.length
     });

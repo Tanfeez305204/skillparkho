@@ -20,8 +20,23 @@
           clean browser view.
         </p>
 
+        <div class="language-bar">
+          <div class="language-copy">
+            <span class="language-label">Q&amp;A Language</span>
+            <p id="languageHint">Showing Hindi/Hinglish questions and answers.</p>
+          </div>
+          <div class="language-toggle" role="group" aria-label="Question and answer language">
+            <button class="lang-button active" id="langHiButton" type="button">
+              Hindi
+            </button>
+            <button class="lang-button" id="langEnButton" type="button">
+              English
+            </button>
+          </div>
+        </div>
+
         <div class="hero-actions">
-          <a class="primary-button" href="/download/notes.pdf">Download PDF</a>
+          <a class="primary-button" id="downloadPdfButton" href="/download/notes.pdf?lang=hi">Download PDF</a>
           <button class="ghost-button" id="expandAllButton" type="button">
             Expand All
           </button>

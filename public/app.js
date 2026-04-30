@@ -2,7 +2,8 @@ const state = {
   sections: [],
   filteredSections: [],
   query: "",
-  activeModule: "all"
+  activeModule: "all",
+  language: localStorage.getItem("notes-language") === "en" ? "en" : "hi"
 };
 
 const notesRoot = document.getElementById("notesRoot");
@@ -11,6 +12,29 @@ const moduleChips = document.getElementById("moduleChips");
 const searchInput = document.getElementById("searchInput");
 const expandAllButton = document.getElementById("expandAllButton");
 const collapseAllButton = document.getElementById("collapseAllButton");
+const langHiButton = document.getElementById("langHiButton");
+const langEnButton = document.getElementById("langEnButton");
+const languageHint = document.getElementById("languageHint");
+const downloadPdfButton = document.getElementById("downloadPdfButton");
+
+function getText(value) {
+  if (typeof value === "string") {
+    return value;
+  }
+
+  return value?.[state.language] || value?.hi || "";
+}
+
+function updateLanguageUi() {
+  const isEnglish = state.language === "en";
+  langHiButton.classList.toggle("active", !isEnglish);
+  langEnButton.classList.toggle("active", isEnglish);
+  languageHint.textContent = isEnglish
+    ? "Showing English questions and answers."
+    : "Showing Hindi/Hinglish questions and answers.";
+  downloadPdfButton.href = `/download/notes.pdf?lang=${state.language}`;
+  localStorage.setItem("notes-language", state.language);
+}
 
 function totalQuestionCount(sections) {
   return sections.reduce((count, section) => count + section.questions.length, 0);
@@ -25,7 +49,7 @@ function filterSections() {
         return true;
       }
 
-      return section.module === state.activeModule;
+      return section.key === state.activeModule;
     })
     .map((section) => {
       const questions = section.questions.filter((entry) => {
@@ -33,7 +57,7 @@ function filterSections() {
           return true;
         }
 
-        const haystack = `${entry.q}\n${entry.a}`.toLowerCase();
+        const haystack = `${getText(entry.q)}\n${getText(entry.a)}`.toLowerCase();
         return haystack.includes(searchText);
       });
 
@@ -82,10 +106,10 @@ function renderModuleChips() {
   for (const section of state.sections) {
     const button = document.createElement("button");
     button.type = "button";
-    button.className = `chip${state.activeModule === section.module ? " active" : ""}`;
-    button.textContent = section.module;
+    button.className = `chip${state.activeModule === section.key ? " active" : ""}`;
+    button.textContent = getText(section.module);
     button.addEventListener("click", () => {
-      state.activeModule = section.module;
+      state.activeModule = section.key;
       render();
     });
     buttons.push(button);
@@ -118,11 +142,11 @@ function renderNotes() {
 
     const kicker = document.createElement("p");
     kicker.className = "module-kicker";
-    kicker.textContent = section.week;
+    kicker.textContent = getText(section.week);
 
     const title = document.createElement("h2");
     title.className = "module-title";
-    title.textContent = section.module;
+    title.textContent = getText(section.module);
 
     headingWrap.append(kicker, title);
 
@@ -142,13 +166,13 @@ function renderNotes() {
       details.open = Boolean(state.query) || index === 0;
 
       const summary = document.createElement("summary");
-      summary.textContent = entry.q;
+      summary.textContent = getText(entry.q);
 
       const answerWrap = document.createElement("div");
       answerWrap.className = "answer";
 
       const answerText = document.createElement("p");
-      answerText.textContent = entry.a;
+      answerText.textContent = getText(entry.a);
 
       answerWrap.appendChild(answerText);
       details.append(summary, answerWrap);
@@ -161,6 +185,7 @@ function renderNotes() {
 }
 
 function render() {
+  updateLanguageUi();
   filterSections();
   renderStats();
   renderModuleChips();
@@ -181,6 +206,16 @@ async function loadNotes() {
 
 searchInput.addEventListener("input", (event) => {
   state.query = event.target.value;
+  render();
+});
+
+langHiButton.addEventListener("click", () => {
+  state.language = "hi";
+  render();
+});
+
+langEnButton.addEventListener("click", () => {
+  state.language = "en";
   render();
 });
 

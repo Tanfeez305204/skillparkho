@@ -64,7 +64,8 @@ function serveStaticFile(requestPath, response) {
 
     const extension = path.extname(filePath);
     response.writeHead(200, {
-      "Content-Type": CONTENT_TYPES[extension] || "application/octet-stream; charset=utf-8"
+      "Content-Type": CONTENT_TYPES[extension] || "application/octet-stream; charset=utf-8",
+      "Cache-Control": "no-store"
     });
     response.end(file);
   });
